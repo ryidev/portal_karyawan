@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dashboard_page.dart'; // <--- IMPORT THE DASHBOARD PAGE HERE
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -43,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      'assets/images/logo2.png',
+                      'assets/images/logo.png',
                       width: 60,
                       height: 60,
                     ),
@@ -133,7 +134,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     
                     GestureDetector(
                       onTap: () {
-                        // Placeholder for forgot password logic
                         print("Forgot password tapped");
                       },
                       child: const Text(
@@ -155,9 +155,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Placeholder for Login logic
+                      // 1. (Optional) Print inputs to console for testing
                       print("Email: ${_emailController.text}");
                       print("Password: ${_passwordController.text}");
+                      
+                      // 2. NAVIGATE TO DASHBOARD
+                      // We use pushReplacement so the user can't click "Back" to return to Login
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => const DashboardPage()),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: brandColor,
