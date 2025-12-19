@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'profile_page.dart';               // <--- Connects to Profile
+import 'riwayatkehadiran_page.dart';     // <--- Connects to Attendance History
+import 'riwayatslipgaji_page.dart';       // <--- Connects to Salary History
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // We use the same brand color as the Login/Splash screen
+    // Brand colors matching your design
     const Color brandColor = Color(0xFF4277BC);
-    const Color lightBlueBg = Color(0xFFE3EDF7); // Approximate light blue for the card
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -15,10 +17,10 @@ class DashboardPage extends StatelessWidget {
       // 1. CUSTOM APP BAR
       appBar: AppBar(
         backgroundColor: Colors.white,
-        elevation: 0, // Removes the default shadow
-        automaticallyImplyLeading: false, // Hides the back button
+        elevation: 0, 
+        automaticallyImplyLeading: false, // Hides the back button (user can't go back to login)
         
-        // The Logo and Text on the left
+        // Logo and Title
         title: Row(
           children: [
             Image.asset(
@@ -39,19 +41,28 @@ class DashboardPage extends StatelessWidget {
           ],
         ),
         
-        // The Profile Icon on the right
+        // Profile Button
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
-            child: Icon(
-              Icons.account_circle_outlined,
-              color: Colors.black,
-              size: 32,
+            child: IconButton(
+              icon: const Icon(
+                Icons.account_circle_outlined,
+                color: Colors.black,
+                size: 32,
+              ),
+              onPressed: () {
+                // Navigate to Profile
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ProfilePage()),
+                );
+              },
             ),
           ),
         ],
         
-        // The grey line at the bottom of the AppBar
+        // Bottom Border Line
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1.0),
           child: Container(
@@ -61,7 +72,7 @@ class DashboardPage extends StatelessWidget {
         ),
       ),
 
-      // 2. THE BODY
+      // 2. MAIN BODY
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),
         child: Column(
@@ -102,16 +113,15 @@ class DashboardPage extends StatelessWidget {
                 color: const Color(0xFFA8C7FA), // Light blue background
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: brandColor, // Dark blue border
+                  color: brandColor, 
                   width: 4,
                 ),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Icon: "Link Off" looks closest to your design
                   Transform.rotate(
-                    angle: -0.5, // Tilted slightly
+                    angle: -0.5, 
                     child: const Icon(
                       Icons.link_off,
                       size: 60,
@@ -140,22 +150,36 @@ class DashboardPage extends StatelessWidget {
 
             const SizedBox(height: 40),
 
-            // --- MENU ITEMS ---
-            
-            // Item 1: Riwayat Kehadiran
-            _buildMenuItem(
-              icon: Icons.calendar_month,
-              text: "Riwayat Kehadiran",
-              color: Colors.blueAccent,
+            // --- MENU ITEM 1: Riwayat Kehadiran ---
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const RiwayatKehadiranPage()),
+                );
+              },
+              child: _buildMenuItem(
+                icon: Icons.calendar_month,
+                text: "Riwayat Kehadiran",
+                color: Colors.blueAccent,
+              ),
             ),
 
             const SizedBox(height: 20),
 
-            // Item 2: Slip Gaji
-            _buildMenuItem(
-              icon: Icons.wallet,
-              text: "Slip Gaji",
-              color: Colors.blueAccent,
+            // --- MENU ITEM 2: Slip Gaji ---
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const RiwayatSlipGajiPage()),
+                );
+              },
+              child: _buildMenuItem(
+                icon: Icons.wallet,
+                text: "Slip Gaji",
+                color: Colors.blueAccent,
+              ),
             ),
           ],
         ),
@@ -163,23 +187,23 @@ class DashboardPage extends StatelessWidget {
     );
   }
 
-  // A helper method to create the menu items cleanly
+  // Helper Widget to reduce code repetition
   Widget _buildMenuItem({required IconData icon, required String text, required Color color}) {
     return Row(
       children: [
-        // The Icon Box
+        // Colored Box with Icon
         Container(
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: color.withOpacity(0.2), // Light background for icon
+            color: color.withOpacity(0.2), 
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(icon, color: color, size: 24),
         ),
         const SizedBox(width: 15),
         
-        // The Text
+        // Text Label
         Expanded(
           child: Text(
             text,
@@ -190,7 +214,7 @@ class DashboardPage extends StatelessWidget {
           ),
         ),
         
-        // The Arrow
+        // Arrow Icon
         const Icon(Icons.arrow_forward, color: Colors.black),
       ],
     );
